@@ -57,7 +57,7 @@ jobs:
       - name: test
         shell: pwsh
         run : |
-          Install-Module Az -A
+          Install-Module Az -Force
           Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'
 
       - name: az account show
