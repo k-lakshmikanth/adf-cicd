@@ -53,9 +53,14 @@ jobs:
         with: 
           azcliversion: 2.36.0
           inlineScript: |
-            az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}}
-          enable-AzPSSession: true  
-      
+            az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}} 
+            
+      - name: az account show
+        uses: azure/CLI@v1
+        with: 
+          azcliversion: 2.36.0
+          inlineScript: |
+            az account show       
 
       - name: Download ARM templates artifact
         uses: actions/download-artifact@v3.0.1
