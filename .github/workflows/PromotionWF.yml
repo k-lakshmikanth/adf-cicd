@@ -30,3 +30,19 @@ jobs:
           name: armtemplates
           path: ${{steps.export.outputs.arm-template-directory }}
           if-no-files-found: error
+          
+  deploy_to_uat_ingestion_adf:
+    # if: ${{ github.ref == 'refs/heads/uat' || github.ref_name == 'uat' }}
+    needs: [build_ARM_templates]
+    name: Deploy to TEST ADF
+    runs-on: ubuntu-latest
+    environment: TEST
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.2.0
+
+      - name: Download ARM templates artifact
+        uses: actions/download-artifact@v3.0.1
+        with:
+          name: armtemplates
+          path: armtemplates
