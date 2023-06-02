@@ -68,5 +68,6 @@ jobs:
           dataFactoryName: ${{ secrets.TEST_INGESTION_DATA_FACTORY_NAME}}
           armTemplateFile: ./armtemplates/ARMTemplateForFactory.json
           armTemplateParametersFile: ./TEST-ARMTemplateParametersForFactory.json
+          predeployment: $false
 
 ################### End of workflow file ###################
