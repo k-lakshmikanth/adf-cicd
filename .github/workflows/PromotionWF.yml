@@ -45,20 +45,13 @@ jobs:
           touch ./temp_cert_and_private_key_acc.pem
           echo "$spn_certificate" >> ./temp_cert_and_private_key_acc.pem
           
-#      - name: Azure Login
-#        uses: azure/CLI@v1
-#        with: 
-#          azcliversion: 2.36.0
-#          inlineScript: |
-#            Install-Module Az
-#            Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'
-#            az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}} 
-
-      - name: test
+          
+      - name: Azure login
         shell: pwsh
         run : |
           Install-Module Az -Force
           Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'  
+          echo "Login successful"
 
       - name: Download ARM templates artifact
         uses: actions/download-artifact@v3.0.1
@@ -69,10 +62,8 @@ jobs:
       - name: Deploy to TEST
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
-          resourceGroupName: ${{ secrets.TEST_INGESTION_ADF_RESOURCE_GROUP_NAME}}
+          resourceGroupName: "az-cicd" # ${{ secrets.TEST_INGESTION_ADF_RESOURCE_GROUP_NAME}}
           dataFactoryName: ${{ secrets.TEST_INGESTION_DATA_FACTORY_NAME}}
           armTemplateFile: ./armtemplates/ARMTemplateForFactory.json
           armTemplateParametersFile: ./TEST-ARMTemplateParametersForFactory.json
-          predeployment: $false
-
 ################### End of workflow file ###################
