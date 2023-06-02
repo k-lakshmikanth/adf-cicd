@@ -1,0 +1,9 @@
+{
+	"name": "lk-Adf-dev",
+	"location": "australiaeast",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "dd8808d9-1928-4ca8-8e04-2a815ac15024",
+		"tenantId": "83f1e4bf-6250-46ba-9d55-4fc1c00efb85"
+	}
+}
