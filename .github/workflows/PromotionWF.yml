@@ -61,6 +61,7 @@ jobs:
       - name: Deploy to TEST
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
+          subscriptionId: 14408b8c-b4a0-4817-8fbc-31a52b9b9399
           resourceGroupName: 'testrg' 
           dataFactoryName: 'az-adf-test2'
           armTemplateFile: ./armtemplates/ARMTemplateForFactory.json
