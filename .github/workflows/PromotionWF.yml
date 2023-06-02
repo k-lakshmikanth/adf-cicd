@@ -31,7 +31,7 @@ jobs:
           path: ${{steps.export.outputs.arm-template-directory }}
           if-no-files-found: error
           
-  deploy_to_uat_ingestion_adf:
+deploy_to_uat_ingestion_adf:
     # if: ${{ github.ref == 'refs/heads/uat' || github.ref_name == 'uat' }}
     needs: [build_ARM_templates]
     name: Deploy to TEST ADF
@@ -41,8 +41,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3.2.0
 
+      - name: retrive SPN Certificate and private key - PEM file - from github secrets and save file
+        env: 
+          spn_certificate: ${{secrets.AZURE_SPN_CERTIFICATE_ACC}}
+        run: |
+          touch ./temp_cert_and_private_key_acc.pem
+          echo "$spn_certificate" >> ./temp_cert_and_private_key_acc.pem
+          
+      - name: Azure Login
+        uses: azure/CLI@v1
+        with: 
+          azcliversion: 2.36.0
+          inlineScript: |
+            az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -P temp_cert_and_private_key_acc.pem --tenet ${{secrets.AZURE_SPN_TENET}}
+
       - name: Download ARM templates artifact
         uses: actions/download-artifact@v3.0.1
         with:
           name: armtemplates
           path: armtemplates
+
+      - name: Deploy to TEST
+        uses: Azure/data-factory-deploy-action@v1.2.0
+        with:
+          resourceGroupName: ${{ secrets.TEST_INGESTION_ADF_RESOURCE_GROUP_NAME}}
+          dataFactoryName: ${{ secrets.TEST_INGESTION_DATA_FACTORY_NAME}}
+          armTemplateFile: ./armtemplates/ARMTemplateForFactory.json
+          armTemplateParametersFile: ./TEST-ARMTemplateParametersForFactory.json
+
+################### End of workflow file ###################
