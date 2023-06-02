@@ -51,6 +51,8 @@ jobs:
         run : |
           Install-Module Az -Force
           Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'  
+          az resource list
+          
 
       - name: Download ARM templates artifact
         uses: actions/download-artifact@v3.0.1
@@ -61,7 +63,6 @@ jobs:
       - name: Deploy to TEST
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
-          subscriptionId: 14408b8c-b4a0-4817-8fbc-31a52b9b9399
           resourceGroupName: 'testrg' 
           dataFactoryName: 'az-adf-test2'
           armTemplateFile: ./armtemplates/ARMTemplateForFactory.json
