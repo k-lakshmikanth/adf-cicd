@@ -31,7 +31,7 @@ jobs:
           path: ${{steps.export.outputs.arm-template-directory }}
           if-no-files-found: error
           
-deploy_to_uat_ingestion_adf:
+  deploy_to_uat_ingestion_adf:
     # if: ${{ github.ref == 'refs/heads/uat' || github.ref_name == 'uat' }}
     needs: [build_ARM_templates]
     name: Deploy to TEST ADF
