@@ -61,8 +61,8 @@ jobs:
       - name: Deploy to TEST
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
-          resourceGroupName: 'az-cicd' 
-          dataFactoryName: ${{ secrets.TEST_INGESTION_DATA_FACTORY_NAME}}
+          resourceGroupName: 'testrg' 
+          dataFactoryName: 'az-adf-test2'
           armTemplateFile: ./armtemplates/ARMTemplateForFactory.json
           armTemplateParametersFile: ./TEST-ARMTemplateParametersForFactory.json
 ################### End of workflow file ###################
