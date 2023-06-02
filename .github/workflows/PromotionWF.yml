@@ -50,7 +50,7 @@ jobs:
         shell: pwsh
         run : |
           Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'  
-		      az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}}
+	  az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}}
 
       - name: Download ARM templates artifact
         uses: actions/download-artifact@v3.0.1
