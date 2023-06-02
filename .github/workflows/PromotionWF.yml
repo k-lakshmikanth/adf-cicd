@@ -48,15 +48,22 @@ jobs:
           touch ./temp_cert_and_private_key_acc.pem
           echo "$spn_certificate" >> ./temp_cert_and_private_key_acc.pem
           
-      - name: Azure Login
-        uses: azure/CLI@v1
-        with: 
-          azcliversion: 2.36.0
-          inlineScript: |
-            Install-Module Az
-            Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'
+#      - name: Azure Login
+#        uses: azure/CLI@v1
+#        with: 
+#          azcliversion: 2.36.0
+#          inlineScript: |
+#            Install-Module Az
+#            Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'
 #            az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}} 
-            
+
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{secrets.AZURE_SPN_APP_ID_ACC}}
+          tenant-id: ${{secrets.AZURE_SPN_TENET}} 
+          subscription-id: 14408b8c-b4a0-4817-8fbc-31a52b9b9399
+
       - name: az account show
         uses: azure/CLI@v1
         with: 
