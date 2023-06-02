@@ -57,15 +57,9 @@ jobs:
       - name: test
         shell: pwsh
         run : |
-          Install-Module Az -Force
-          Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'
-
-      - name: az account show
-        uses: azure/CLI@v1
-        with: 
-          azcliversion: 2.36.0
-          inlineScript: |
-            az account show       
+          az login --service-principal -u ${{secrets.AZURE_SPN_APP_ID_ACC}} -p temp_cert_and_private_key_acc.pem --tenant ${{secrets.AZURE_SPN_TENET}} 
+#          Install-Module Az -Force
+#Connect-AzAccount -ServicePrincipal -ApplicationId ${{secrets.AZURE_SPN_APP_ID_ACC}} -TenantId ${{secrets.AZURE_SPN_TENET}} -CertificatePath './temp_cert_and_private_key_acc.pem'  
 
       - name: Download ARM templates artifact
         uses: actions/download-artifact@v3.0.1
