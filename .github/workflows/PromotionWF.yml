@@ -5,9 +5,6 @@ run-name: Deploy Ingestion ADF
 on:
   workflow_dispatch: 
   push:
-    paths:
-      - 'github/workflows/'
-
     
 jobs:
   build_ARM_templates:
